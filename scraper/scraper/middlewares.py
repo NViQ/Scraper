@@ -1,12 +1,33 @@
-# Define here the models for your spider middleware
-#
-# See documentation in:
-# https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-
 from scrapy import signals
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from scrapy.http import HtmlResponse
+import time
 
-# useful for handling different item types with a single interface
-from itemadapter import is_item, ItemAdapter
+
+
+
+class SeleniumMiddleware(object):
+    def __init__(self):
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+        chrome_options.add_argument("--disable-gpu")
+        chrome_options.add_argument(
+            "--remote-debugging-port=9222")
+        self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+
+    def process_request(self, request, spider):
+        self.driver.get(request.url)
+        time.sleep(3)
+        body = self.driver.page_source
+        return HtmlResponse(self.driver.current_url, body=body, encoding='utf-8', request=request)
+
+    def spider_closed(self, spider):
+        self.driver.quit()
 
 
 class ScraperSpiderMiddleware:

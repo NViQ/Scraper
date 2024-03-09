@@ -15,7 +15,7 @@ NEWSPIDER_MODULE = "scraper.spiders"
 SPLASH_URL = 'http://localhost:8050'
 
 DOWNLOADER_MIDDLEWARES = {
-    'myproject.middlewares.SeleniumMiddleware': 543,
+    'scraper.middlewares.SeleniumMiddleware': 800,
     'scrapy_splash.SplashCookiesMiddleware': 723,
     'scrapy_splash.SplashMiddleware': 725,
     'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,

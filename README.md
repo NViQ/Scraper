@@ -7,9 +7,23 @@ You should run:
 
 Before launching the module, you must put the Site that you want to scrape into variables
 ```
-{
+
   allowed_domains = 
 
   start_urls =
-}
+
+```
+
+for Docker:
+
+```
+   docker build -t scraper .
+  
+   docker run scraper  
+```
+
+for new file - my_spider.txt
+
+```
+    docker cp <CONTAINER_ID>:/app/my_spider.txt <LOCAL_PATH>
 ```
